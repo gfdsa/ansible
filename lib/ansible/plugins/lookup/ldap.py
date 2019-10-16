@@ -198,9 +198,13 @@ class LdapEntries(object):
 
             except LDAPException as e:
                 raise AnsibleError(
-                    "Invalid parameter for LDAP server: %s" % str(e))
+                    "Invalid parameter for LDAP3s server: %s" % str(e))
         else:
-            server = ldap3.Server(self.server_uri)
+            try:
+                server = ldap3.Server(self.server_uri)
+            except LDAPException as e:
+                raise AnsibleError(
+                    "Invalid parameter for LDAP3 server: %s" % str(e))
 
         try:
             if self.bind_dn is not None:
